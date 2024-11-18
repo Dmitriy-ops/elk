@@ -29,7 +29,7 @@ services:
       - ./elk-config/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./elk-config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ls_data:/usr/share/logstash/data
-
+      - ./nginx-logs:/var/log/nginx  # Монтируем директорию для логов Nginx
     networks:
       - elk
     depends_on:
@@ -47,6 +47,17 @@ services:
       - elk
     depends_on:
       - elasticsearch
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-logs:/var/log/nginx  # Монтируем директорию для логов Nginx
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Монтируем конфигурацию Nginx
+    networks:
+      - elk
 
 networks:
   elk:
