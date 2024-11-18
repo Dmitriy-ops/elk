@@ -1,0 +1,8 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/*.log  # Путь к логам Nginx
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]  # Адрес вашего Elasticsearch
